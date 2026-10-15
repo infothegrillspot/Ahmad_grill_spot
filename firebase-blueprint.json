@@ -1,0 +1,89 @@
+{
+  "entities": {
+    "users": {
+      "title": "User",
+      "description": "User profile with contact details, loyalty points and preferences",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 100 },
+        "phoneNumber": { "type": "string", "maxLength": 30 },
+        "loyaltyPoints": { "type": "number" },
+        "offerNotifications": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "email"]
+    },
+    "orders": {
+      "title": "Order",
+      "description": "Customer food order with items, branch, totals and status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "customerName": { "type": "string", "maxLength": 100 },
+        "phoneNumber": { "type": "string", "maxLength": 30 },
+        "email": { "type": "string", "maxLength": 100 },
+        "orderType": { "type": "string", "enum": ["pickup", "delivery"] },
+        "branch": { "type": "string", "maxLength": 100 },
+        "branchAddress": { "type": "string", "maxLength": 200 },
+        "instructions": { "type": "string", "maxLength": 500 },
+        "paymentMethod": { "type": "string", "maxLength": 50 },
+        "estimatedTime": { "type": "string", "maxLength": 50 },
+        "subtotal": { "type": "number" },
+        "tax": { "type": "number" },
+        "discount": { "type": "number" },
+        "grandTotal": { "type": "number" },
+        "status": { "type": "string", "enum": ["placed", "preparing", "ready", "completed", "cancelled"] },
+        "items": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "customerName", "subtotal", "tax", "grandTotal", "status"]
+    },
+    "favourites": {
+      "title": "Favourite",
+      "description": "User saved favorite menu items",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "itemId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "itemId"]
+    },
+    "addresses": {
+      "title": "Address",
+      "description": "User saved delivery addresses",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string", "maxLength": 50 },
+        "address": { "type": "string", "maxLength": 250 },
+        "phone": { "type": "string", "maxLength": 30 }
+      },
+      "required": ["id", "userId", "title", "address"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/users" },
+      "description": "Private user profile documents"
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/orders" },
+      "description": "Food orders placed by authenticated customers"
+    },
+    "/users/{userId}/favourites/{favouriteId}": {
+      "schema": { "$ref": "#/entities/favourites" },
+      "description": "Saved favorite items for a user"
+    },
+    "/users/{userId}/addresses/{addressId}": {
+      "schema": { "$ref": "#/entities/addresses" },
+      "description": "Delivery addresses saved by a user"
+    }
+  }
+}

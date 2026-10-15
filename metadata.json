@@ -1,0 +1,6 @@
+{
+  "name": "SMASH Burgers Mobile App",
+  "description": "Mobile-first online food ordering application inspired by Smash Pakistan, featuring deals, customizable items, cart, checkout, order tracking, and Firebase authentication.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
